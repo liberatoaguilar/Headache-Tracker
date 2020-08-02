@@ -10,21 +10,50 @@ let todayString = month.toString()+"-"+today.getFullYear().toString();
 //formatEx  {Aug-2020:{2:["mild","nothing"]},{25:["bad","ibuprofen"]}};
 let savedItems = localStorage.getItem("savedItems") || {todayString};
 
-function createDayCells() {
+function createDayCells(givenDate) {
   let calHeight = calendarTable.clientHeight;
   let switcherHeight = switcherTable.clientHeight;
   let bodyHeight = document.body.clientHeight;
-  for (let i = 0; i < 6; i++) {
-    let newWeek = document.createElement("tr");
-    newWeek.setAttribute("id","week-"+i.toString());
-    for (let x = 0; x < 7; x++) {
-      let newDay = document.createElement("td");
-      newDay.setAttribute("id","day-"+x.toString());
-      newDay.style.height = (bodyHeight-(calHeight+switcherHeight))/6-2;
-      newWeek.appendChild(newDay);
-    }
-    calendarTable.appendChild(newWeek);
+  let todayDate = new Date(givenDate.getFullYear(),givenDate.getMonth());
+  let weekOne = document.createElement("tr");
+  weekOne.setAttribute("class","week");
+  for (let i = 0; i < todayDate.getDay(); i++){
+    let newDay = document.createElement("td");
+    newDay.setAttribute("class","day");
+    weekOne.appendChild(newDay);
   }
+  for (let i = todayDate.getDay(); i < 7; i++){
+    let newDay = document.createElement("td");
+    newDay.setAttribute("class","day");
+    newDay.textContent = todayDate.getDate();
+    weekOne.appendChild(newDay);
+    todayDate.setDate(todayDate.getDate()+1);
+  }
+  calendarTable.appendChild(weekOne);
+
+  let currentMonth = todayDate.getMonth();
+  let newWeek;
+  while (todayDate.getMonth() == currentMonth) {
+    if (todayDate.getDay() == 0) {
+      newWeek = document.createElement("tr");
+      newWeek.setAttribute("class","week");
+      calendarTable.appendChild(newWeek);
+    }
+    let newDay = document.createElement("td");
+    newDay.textContent = todayDate.getDate();
+    todayDate.setDate(todayDate.getDate()+1);
+    newWeek.appendChild(newDay);
+  }
+  for (let i = todayDate.getDay(); i < 7; i++) {
+    let newDay = document.createElement("td");
+    newDay.setAttribute("class","day");
+    newWeek.appendChild(newDay);
+  }
+  let weeks = document.getElementsByClassName("week");
+  for (let week of weeks) {
+    week.style.height = (bodyHeight-(calHeight+switcherHeight))/weeks.length-2;
+  }
+
 }
 
-createDayCells();
+createDayCells(today);
