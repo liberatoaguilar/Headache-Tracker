@@ -14,7 +14,17 @@ function createDayCells() {
   let calHeight = calendarTable.clientHeight;
   let switcherHeight = switcherTable.clientHeight;
   let bodyHeight = document.body.clientHeight;
-
+  for (let i = 0; i < 6; i++) {
+    let newWeek = document.createElement("tr");
+    newWeek.setAttribute("id","week-"+i.toString());
+    for (let x = 0; x < 7; x++) {
+      let newDay = document.createElement("td");
+      newDay.setAttribute("id","day-"+x.toString());
+      newDay.style.height = (bodyHeight-(calHeight+switcherHeight))/6-2;
+      newWeek.appendChild(newDay);
+    }
+    calendarTable.appendChild(newWeek);
+  }
 }
 
 createDayCells();
