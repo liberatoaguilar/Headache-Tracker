@@ -50,3 +50,6 @@ body, html {
   padding-left: 20px;
   padding-right: 20px;
 }
+[notblank]:hover {
+  background-color: #e7e7e7;
+}

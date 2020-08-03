@@ -98,6 +98,7 @@ function createDayCells(givenDate) {
   for (let i = todayDate.getDay(); i < 7; i++){
     let newDay = document.createElement("td");
     newDay.setAttribute("class","day");
+    newDay.setAttribute("notblank","1");
     newDay.textContent = todayDate.getDate();
     weekOne.appendChild(newDay);
     todayDate.setDate(todayDate.getDate()+1);
@@ -114,6 +115,7 @@ function createDayCells(givenDate) {
     }
     let newDay = document.createElement("td");
     newDay.setAttribute("class","day");
+    newDay.setAttribute("notblank","1");
     newDay.textContent = todayDate.getDate();
     todayDate.setDate(todayDate.getDate()+1);
     newWeek.appendChild(newDay);
