@@ -35,3 +35,14 @@ body, html {
   padding-bottom: 10px;
   width: 14.285714286vw;
 }
+#yellow {
+  background-color: #fff500;
+}
+#orange {
+  background-color: #f48b00;
+  color: white;
+}
+#red {
+  background-color: #e00000;
+  color: white;
+}
