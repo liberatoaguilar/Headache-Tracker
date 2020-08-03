@@ -102,10 +102,12 @@ function createDayCells(givenDate) {
     todayDate.setDate(todayDate.getDate()+1);
     newWeek.appendChild(newDay);
   }
-  for (let i = todayDate.getDay(); i < 7; i++) {
-    let newDay = document.createElement("td");
-    newDay.setAttribute("class","day");
-    newWeek.appendChild(newDay);
+  if (todayDate.getDay() > 0) {
+    for (let i = todayDate.getDay(); i < 7; i++) {
+      let newDay = document.createElement("td");
+      newDay.setAttribute("class","day");
+      newWeek.appendChild(newDay);
+    }
   }
   let weeks = document.getElementsByClassName("week");
   for (let week of weeks) {
