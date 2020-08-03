@@ -12,3 +12,4 @@
 - Click on each day to cycle between intensity of headache (mild, medium, bad).
 - Click Save to store history in local storage and Clear Save to wipe history.
 - Click on the Pill icon and click on any day to paste it. This indicates if a pill was taken to ease the pain.
+- Press escape to stop pill placing.

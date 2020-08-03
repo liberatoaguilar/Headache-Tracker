@@ -195,6 +195,16 @@ function pillClick() {
 }
 pillDiv.addEventListener("click",pillClick);
 
+window.addEventListener("keydown", event => {
+  if (event.key == "Escape" && pillMode) {
+    pillMode = false;
+    pillDiv.addEventListener("click",pillClick);
+    let newPill = document.querySelector('[movingpill="1"]');
+    document.body.removeChild(newPill);
+    document.body.removeEventListener("mousemove",movePill);
+  }
+});
+
 
 createDayCells(today);
 load(month,today.getFullYear(),savedItems);
