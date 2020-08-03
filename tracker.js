@@ -5,6 +5,7 @@ let backButton = document.getElementById("back");
 let forButton = document.getElementById("forward");
 let saveButton = document.getElementById("save");
 let clearSaveButton = document.getElementById("clearsave");
+let pillDiv = document.getElementById("pill");
 
 let today = new Date();
 let month = today.toLocaleString('default', { month: 'long' });
@@ -14,6 +15,8 @@ let currentDate = today;
 
 //formatEx  {July_2020:{2:["yellow","nothing"]}};
 let savedItems = JSON.parse(localStorage.getItem("savedItems")) || {};
+
+let pillMode = false;
 
 function save() {
   saveLocal(currentDate.toLocaleString('default', { month: 'long' }),currentDate.getFullYear())
@@ -55,6 +58,17 @@ function load(month,year,search){
     if (search[month+"_"+year.toString()] == undefined) console.log('skip');
     else if (search[month+"_"+year.toString()][day.textContent] != undefined) day.setAttribute("id",search[month+"_"+year][day.textContent][0]);
   }
+  if (search[month+"_"+year.toString()] == undefined) console.log('skipPills');
+  else if (search[month+"_"+year.toString()]["pills"] != undefined) {
+    for (let coord of search[month+"_"+year.toString()]["pills"]){
+      let newPill = pillDiv.cloneNode(true);
+      newPill.setAttribute("movingpill","2");
+      newPill.style.position = "absolute";
+      newPill.style.top = coord[0];
+      newPill.style.left = coord[1];
+      document.body.appendChild(newPill);
+    }
+  }
 }
 
 function saveLocal(month,year) {
@@ -71,16 +85,29 @@ function saveLocal(month,year) {
   for (let day of red) {
     savobj[day.textContent] = ["red"];
   }
+
+  let pills = document.querySelectorAll('[movingpill="2"]');
+  savobj["pills"] = [];
+  for (let pill of pills) {
+    savobj["pills"].push([pill.style.top,pill.style.left]);
+  }
   savedItems[month+"_"+year.toString()] = savobj;
 
 }
 
 function changeColor(day) {
-  if (day.getAttribute("id") == "none") day.setAttribute("id","yellow");
-  else if (day.getAttribute("id") == "yellow") day.setAttribute("id","orange");
-  else if (day.getAttribute("id") == "orange") day.setAttribute("id","red");
-  else if (day.getAttribute("id") == "red") day.setAttribute("id","none");
-  //saveLocal(1,1);
+  if (!pillMode){
+    if (day.getAttribute("id") == "none") day.setAttribute("id","yellow");
+    else if (day.getAttribute("id") == "yellow") day.setAttribute("id","orange");
+    else if (day.getAttribute("id") == "orange") day.setAttribute("id","red");
+    else if (day.getAttribute("id") == "red") day.setAttribute("id","none");
+  } else {
+    pillMode = false;
+    pillDiv.addEventListener("click",pillClick);
+    let newPill = document.querySelector('[movingpill="1"]');
+    newPill.setAttribute("movingPill","2");
+    document.body.removeEventListener("mousemove",movePill);
+  }
 }
 
 function createDayCells(givenDate) {
@@ -143,7 +170,31 @@ function deleteCells() {
   for (let weekChild of Array.from(weeks)) {
     calendarTable.removeChild(weekChild);
   }
+  let pills = document.querySelectorAll('[movingpill="2"]');
+  for (let pill of pills) {
+    document.body.removeChild(pill);
+  }
 }
+
+function movePill(event) {
+  let newPill = document.querySelector('[movingpill="1"]');
+  newPill.style.top = event.clientY;
+  newPill.style.left = event.clientX;
+}
+
+function pillClick() {
+  pillMode = true;
+  let newPill = pillDiv.cloneNode(true);
+  newPill.style.position = "absolute";
+  newPill.style.top = "0px";
+  newPill.style.top = "0px";
+  newPill.setAttribute("movingpill","1");
+  document.body.appendChild(newPill);
+  document.body.addEventListener("mousemove",movePill);
+  pillDiv.removeEventListener("click",pillClick);
+}
+pillDiv.addEventListener("click",pillClick);
+
 
 createDayCells(today);
 load(month,today.getFullYear(),savedItems);
