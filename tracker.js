@@ -186,8 +186,8 @@ function pillClick() {
   pillMode = true;
   let newPill = pillDiv.cloneNode(true);
   newPill.style.position = "absolute";
-  newPill.style.top = "0px";
-  newPill.style.top = "0px";
+  newPill.style.top = pillDiv.style.top.toString()+"px";
+  newPill.style.top = pillDiv.style.top.toString()+"px";
   newPill.setAttribute("movingpill","1");
   document.body.appendChild(newPill);
   document.body.addEventListener("mousemove",movePill);
