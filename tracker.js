@@ -80,7 +80,7 @@ function changeColor(day) {
   else if (day.getAttribute("id") == "yellow") day.setAttribute("id","orange");
   else if (day.getAttribute("id") == "orange") day.setAttribute("id","red");
   else if (day.getAttribute("id") == "red") day.setAttribute("id","none");
-  saveLocal(1,1);
+  //saveLocal(1,1);
 }
 
 function createDayCells(givenDate) {
