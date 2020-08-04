@@ -66,6 +66,10 @@ function load(month,year,search){
       newPill.style.position = "absolute";
       newPill.style.top = coord[0];
       newPill.style.left = coord[1];
+      newPill.addEventListener("click", () => {
+        document.body.removeChild(newPill);
+        saveLocal(currentDate.toLocaleString('default', { month: 'long' }),currentDate.getFullYear());
+      });
       document.body.appendChild(newPill);
     }
   }
@@ -106,6 +110,10 @@ function changeColor(day) {
     pillDiv.addEventListener("click",pillClick);
     let newPill = document.querySelector('[movingpill="1"]');
     newPill.setAttribute("movingPill","2");
+    newPill.addEventListener("click",() => {
+      document.body.removeChild(newPill);
+      saveLocal(currentDate.toLocaleString('default', { month: 'long' }),currentDate.getFullYear());
+    });
     document.body.removeEventListener("mousemove",movePill);
   }
 }
